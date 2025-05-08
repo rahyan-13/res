@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resume Builder</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- AOS CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Roboto Slab', serif;
+    }
+    .resume-container {
+      width: 8.5in;
+      min-height: 11in;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    #profileImage {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #666;
+    }
+    .dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    .dark-mode .resume-container {
+      background-color: #2b2b2b;
+      color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation / Dark Mode Toggle -->
+  <nav class="navbar navbar-expand bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Resume Builder</a>
+      <button id="dark-mode-toggle" class="btn btn-outline-secondary">Toggle Dark Mode</button>
+    </div>
+  </nav>
+
+  <div class="container-fluid mt-4">
+    <div class="row">
+      <!-- Form Inputs Column -->
+      <div class="col-md-4 mb-4">
+        <form id="resumeForm" class="needs-validation" novalidate>
+          <h4>Personal Information</h4>
+          <div class="mb-3">
+            <label for="fullNameInput" class="form-label">Full Name</label>
+            <input type="text" id="fullNameInput" class="form-control" placeholder="Enter your name" required>
+            <div class="invalid-feedback">Please enter your name.</div>
+          </div>
+          <div class="mb-3">
+            <label for="emailInput" class="form-label">Email</label>
+            <input type="email" id="emailInput" class="form-control" placeholder="Enter your email" required>
+            <div class="invalid-feedback">Please enter a valid email.</div>
+          </div>
+          <div class="mb-3">
+            <label for="phoneInput" class="form-label">Phone</label>
+            <input type="tel" pattern="\\d{10,}" id="phoneInput" class="form-control" placeholder="Enter your phone number" required>
+            <div class="invalid-feedback">Please enter a valid phone number.</div>
+          </div>
+          <div class="mb-3">
+            <label for="locationInput" class="form-label">Location</label>
+            <input type="text" id="locationInput" class="form-control" placeholder="City, Country" required>
+            <div class="invalid-feedback">Please enter your location.</div>
+          </div>
+          <div class="mb-3">
+            <label for="profileImageInput" class="form-label">Profile Image</label>
+            <input type="file" id="profileImageInput" class="form-control" accept="image/*">
+          </div>
+
+          <hr><h4>Professional Summary</h4>
+          <div class="mb-3">
+            <label for="summaryInput" class="form-label">Summary / Objective</label>
+            <textarea id="summaryInput" class="form-control" rows="3" placeholder="Brief career summary" required></textarea>
+            <div class="invalid-feedback">Please enter a summary.</div>
+          </div>
+
+          <hr><h4>Work Experience</h4>
+          <div class="mb-3">
+            <label for="jobTitleInput" class="form-label">Job Title</label>
+            <input type="text" id="jobTitleInput" class="form-control" placeholder="e.g. Software Developer" required>
+            <div class="invalid-feedback">Enter your job title.</div>
+          </div>
+          <div class="mb-3">
+            <label for="companyInput" class="form-label">Company</label>
+            <input type="text" id="companyInput" class="form-control" placeholder="Company name" required>
+            <div class="invalid-feedback">Enter company name.</div>
+          </div>
+          <div class="mb-3">
+            <label for="jobDatesInput" class="form-label">Dates (Month Year - Month Year)</label>
+            <input type="text" id="jobDatesInput" class="form-control" placeholder="e.g. Jun 2020 - Present" required>
+            <div class="invalid-feedback">Enter dates of employment.</div>
+          </div>
+          <div class="mb-3">
+            <label for="jobDescInput" class="form-label">Responsibilities (comma separated)</label>
+            <textarea id="jobDescInput" class="form-control" rows="3"
+                      placeholder="List job responsibilities or achievements"></textarea>
+          </div>
+
+          <hr><h4>Skills</h4>
+          <div class="mb-3">
+            <label for="skillsInput" class="form-label">Skills (comma separated)</label>
+            <input type="text" id="skillsInput" class="form-control" placeholder="e.g. JavaScript, HTML, CSS" required>
+            <div class="invalid-feedback">List at least one skill.</div>
+          </div>
+
+          <hr><h4>Education</h4>
+          <div class="mb-3">
+            <label for="educationInput" class="form-label">Degree and University</label>
+            <input type="text" id="educationInput" class="form-control"
+                   placeholder="e.g. B.Sc. in CS - University (2016-2020)" required>
+            <div class="invalid-feedback">Enter your education details.</div>
+          </div>
+
+          <hr><h4>Achievements</h4>
+          <div class="mb-3">
+            <label for="achievementsInput" class="form-label">Achievements (comma separated)</label>
+            <input type="text" id="achievementsInput" class="form-control"
+                   placeholder="e.g. Certified Java Developer, Award Winner">
+          </div>
+        </form>
+      </div>
+
+      <!-- Resume Preview Column -->
+      <div class="col-md-8">
+        <div id="resume" class="resume-container" data-aos="fade">
+          <!-- Header: Photo and Name/Contact -->
+          <div class="d-flex align-items-center">
+            <img id="profileImage" src="https://via.placeholder.com/100" alt="Profile Image">
+            <div class="ms-3">
+              <h1 id="fullName">Your Name</h1>
+              <p id="contactInfo">your.email@example.com | +1234567890 | Your City</p>
+            </div>
+          </div>
+          <!-- Summary Section -->
+          <section data-aos="fade-up" class="mt-4">
+            <h2>Professional Summary</h2>
+            <p id="summaryText">Enter a brief summary about yourself.</p>
+          </section>
+          <!-- Experience Section -->
+          <section data-aos="fade-up" class="mt-4">
+            <h2>Work Experience</h2>
+            <div>
+              <h3 id="jobTitle">Job Title</h3>
+              <p>
+                <span id="jobCompany">Company</span> - <span id="jobDates">Dates</span>
+              </p>
+              <ul id="jobResponsibilities">
+                <li>List your responsibilities or achievements here.</li>
+              </ul>
+            </div>
+          </section>
+          <!-- Skills Section -->
+          <section data-aos="fade-up" class="mt-4">
+            <h2>Skills</h2>
+            <ul id="skillsList">
+              <li>Example Skill 1</li>
+              <li>Example Skill 2</li>
+            </ul>
+          </section>
+          <!-- Education Section -->
+          <section data-aos="fade-up" class="mt-4">
+            <h2>Education</h2>
+            <p id="education">Degree at University (Year–Year)</p>
+          </section>
+          <!-- Achievements Section -->
+          <section data-aos="fade-up" class="mt-4">
+            <h2>Achievements</h2>
+            <ul id="achievementsList">
+              <li>Example Achievement or Certification</li>
+            </ul>
+          </section>
+        </div>
+        <button id="downloadBtn" class="btn btn-primary mt-3">Download PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Required JS Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.1/jspdf.umd.min.js"></script>
+  <script>
+    // Initialize AOS animations
+    AOS.init();
+
+    // Dark mode toggle handler
+    document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+      document.body.classList.toggle('dark-mode');
+    });
+
+    // Helper to refresh contact info string
+    function refreshContactInfo() {
+      const email = document.getElementById('emailInput').value;
+      const phone = document.getElementById('phoneInput').value;
+      const loc = document.getElementById('locationInput').value;
+      let info = '';
+      if(email) info += email;
+      if(phone) info += (info ? ' | ' + phone : phone);
+      if(loc) info += (info ? ' | ' + loc : loc);
+      document.getElementById('contactInfo').innerText = info;
+    }
+
+    // Update preview on input events
+    document.getElementById('fullNameInput').addEventListener('input', function() {
+      document.getElementById('fullName').innerText = this.value;
+    });
+    document.getElementById('emailInput').addEventListener('input', refreshContactInfo);
+    document.getElementById('phoneInput').addEventListener('input', refreshContactInfo);
+    document.getElementById('locationInput').addEventListener('input', refreshContactInfo);
+
+    document.getElementById('summaryInput').addEventListener('input', function() {
+      document.getElementById('summaryText').innerText = this.value;
+    });
+    document.getElementById('jobTitleInput').addEventListener('input', function() {
+      document.getElementById('jobTitle').innerText = this.value;
+    });
+    document.getElementById('companyInput').addEventListener('input', function() {
+      document.getElementById('jobCompany').innerText = this.value;
+    });
+    document.getElementById('jobDatesInput').addEventListener('input', function() {
+      document.getElementById('jobDates').innerText = this.value;
+    });
+    document.getElementById('jobDescInput').addEventListener('input', function() {
+      const list = document.getElementById('jobResponsibilities');
+      list.innerHTML = '';
+      const items = this.value.split(',');
+      items.forEach(item => {
+        if(item.trim()) {
+          const li = document.createElement('li');
+          li.innerText = item.trim();
+          list.appendChild(li);
+        }
+      });
+    });
+    document.getElementById('skillsInput').addEventListener('input', function() {
+      const list = document.getElementById('skillsList');
+      list.innerHTML = '';
+      const items = this.value.split(',');
+      items.forEach(item => {
+        if(item.trim()) {
+          const li = document.createElement('li');
+          li.innerText = item.trim();
+          list.appendChild(li);
+        }
+      });
+    });
+    document.getElementById('educationInput').addEventListener('input', function() {
+      document.getElementById('education').innerText = this.value;
+    });
+    document.getElementById('achievementsInput').addEventListener('input', function() {
+      const list = document.getElementById('achievementsList');
+      list.innerHTML = '';
+      const items = this.value.split(',');
+      items.forEach(item => {
+        if(item.trim()) {
+          const li = document.createElement('li');
+          li.innerText = item.trim();
+          list.appendChild(li);
+        }
+      });
+    });
+
+    // Profile image upload preview
+    document.getElementById('profileImageInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if(file) {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          document.getElementById('profileImage').src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Generate PDF on button click
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+      const form = document.getElementById('resumeForm');
+      form.classList.add('was-validated');
+      if(!form.checkValidity()) {
+        alert('Please fill in required fields.');
+        return;
+      }
+      html2canvas(document.getElementById('resume')).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jspdf.jsPDF('p', 'pt', 'letter');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('resume.pdf');
+      });
+    });
+  </script>
+</body>
+</html>
